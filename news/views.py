@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Post
-from django.views.generic import ListView
+import django.views.generic as generic
 
 
-class ListPosts(ListView):
+class ListPosts(generic.ListView):
     model = Post
     ordering = 'postAuthor'
-    template_name = 'news/product_list.html'
+    template_name = 'news/posts_list.html'
     context_object_name = 'post_list'
     paginate_by = True
+
+
+class DetailPost(generic.DetailView):
+    model = Post
+    ordering = 'postAuthor'

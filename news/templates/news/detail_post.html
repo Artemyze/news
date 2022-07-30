@@ -1,0 +1,23 @@
+{% extends 'news/index.html' %}
+{% load custom_filters %}
+{% block content_table %}
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Заголовок</th>
+            <th>Дата публикации</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">{{ post.pk }}</th>
+            <td>{{ post.postTitle }}</td>
+            <td>{{ post.dateCreation|date:'d F Y H:i' }}</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                {{ post. }}
+            </td>
+        </tr>
+    </tbody>
+{% endblock content_table %}

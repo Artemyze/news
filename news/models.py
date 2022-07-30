@@ -5,7 +5,7 @@ from django.db.models import Sum
 
 
 class Author(models.Model):
-    authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
+    authorUser = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Юзер')
     authorRating = models.PositiveSmallIntegerField(default=0)
 
     def update_rating(self):
@@ -18,9 +18,15 @@ class Author(models.Model):
         self.authorRating = pRat * 3 + cRat
         self.save()
 
+    def __str__(self):
+        return f'{self.authorUser.username}'
+
 
 class Category(models.Model):
     categoryName = models.CharField(max_length=64, unique=True, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.categoryName}'
 
 
 class Post(models.Model):
@@ -33,10 +39,10 @@ class Post(models.Model):
         (ARTICLE, 'Статья'),
     )
     categoryType = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE)
-    dateCreation = models.DateTimeField(auto_now_add=True)
-    postCategory = models.ManyToManyField(Category, through='PostCategory')
-    postTitle = models.CharField(max_length=128)
-    postText = models.TextField()
+    dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    postCategory = models.ManyToManyField(Category, through='PostCategory', verbose_name='Категория')
+    postTitle = models.CharField(max_length=128, verbose_name='Название')
+    postText = models.TextField(verbose_name='Текст')
     postRating = models.PositiveSmallIntegerField(default=0)
 
     def like(self):
@@ -50,6 +56,9 @@ class Post(models.Model):
 
     def preview(self):
         return f'{self.postText[:self.LENGTH_PREVIEW]}...'
+
+    def __str__(self):
+        return f'{self.postTitle}'
 
 
 class PostCategory(models.Model):
